@@ -1,3 +1,4 @@
+
 #include <algorithm>
 #include <cstdlib>
 #include <ctime>
@@ -8,24 +9,62 @@ using namespace std;
 /*******************************************************************************
  * Function prototype
 *******************************************************************************/
-
+// FindMaxRecTail during each recursive call n number of element 
+// therefore time complexity is O(n).
 template <typename T>
-T findMaxRecTail(const T[] arr, const int size, int = 0)
+T findMaxRecTail(const T arr[], const int size, int i = 0)
 {
-    // TO DO: Implement your code
+    if (size <= 0) {
+        throw string(" error, empty array");
+    }
+
+    // base case
+    if (i == size - 1) {
+        return arr[i];
+    }
+
+    // recursive call
+    T maxOfRest = findMaxRecTail(arr, size, i + 1);
+
+    if (arr[i] > maxOfRest) {
+        return arr[i];
+    } else {
+        return maxOfRest;
+    }
 }
 
+// FindMaxBinarySplit array is divided into 2 halfs, but all n elements are still called
+// therefore time complexity is also O(n).
 template <typename T>
-T findMaxRecBinarySplit(const T[] arr, const int left, const int right)
+T findMaxRecBinarySplit(const T arr[], const int left, const int right)
 {
-    // TO DO: Implement your code
+    if (left > right) {
+        throw string("error, invalid range");
+    }
+
+    // base case
+    if (left == right) {
+        return arr[left];
+    }
+
+    int mid = left + (right - left) / 2;
+
+    	//recursive call
+    T leftMax = findMaxRecBinarySplit(arr, left, mid);
+    T rightMax = findMaxRecBinarySplit(arr, mid + 1, right);
+
+    if (leftMax > rightMax) {
+        return leftMax;
+    } else {
+        return rightMax;
+    }
 }
 /*******************************************************************************
  * Description:
  * Starting point of the program. Creates two arrays, one fixed and the other
  * random. Determines the maximum value by calling the local function and the
  * standard function.
- * 
+ *
  * Input:
  * N/A
  *
@@ -44,10 +83,10 @@ int main() {
     // display the maximum
     cout << setfill('-') << setw(40) << "" << endl;
     cout << "Maximum using Recursion: "
-         << findMaxRecTail(myArray, SIZE) << endl 
-         << "From Binary split:" 
+         << findMaxRecTail(myArray, SIZE) << endl
+         << "From Binary split: "
         << findMaxRecBinarySplit(myArray, 0, SIZE-1)
-         << "Should be 130 for the fixed array\n";
+         <<  " Should be 130 for the fixed array\n";
     cout << setfill('-') << setw(40) << "" << endl << endl;
 
     // create a random array
