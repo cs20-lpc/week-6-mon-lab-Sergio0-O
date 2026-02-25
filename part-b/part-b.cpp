@@ -13,7 +13,7 @@ void towerHanoi(int, string, string, string, int&);
  * Description:
  * Starting point of the program. Calls a function to recursively determine
  * solutions for the first 5 instances of the Tower of Hanoi problem.
- * 
+ *
  * Input:
  * N/A
  *
@@ -32,4 +32,20 @@ int main() {
 
     // terminate
     return 0;
+}
+
+void towerHanoi(int numDisks, string source, string buffer, string target, int& numMoves)
+{
+    if (numDisks == 1) {
+        cout << "Moving disc 1 from " << source << " to " << target << endl;
+        numMoves++;
+        return;
+    }
+
+    towerHanoi(numDisks - 1, source, target, buffer, numMoves);
+
+    cout << "Moving disc " << numDisks << " from " << source << " to " << target << endl;
+    numMoves++;
+
+    towerHanoi(numDisks - 1, buffer, source, target, numMoves);
 }
